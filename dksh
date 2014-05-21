@@ -1,0 +1,13 @@
+#!/bin/bash
+# dksh: Start an interactive shell on the specified image
+
+set -e
+
+# Only run as root
+if [ $UID -ne 0 ]; then
+  exec sudo "$0" "$1"
+fi
+
+docker run -it $1 /bin/bash
+
+# vi:ft=sh:sw=2:
