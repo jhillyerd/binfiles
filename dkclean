@@ -8,9 +8,7 @@ if [ $UID -ne 0 ]; then
   exec sudo $0
 fi
 
-containers=$(docker ps -a | fgrep ' Exited ' | cut -d' ' -f 1)
-if [ -n "$(echo $containers | tr -d ' \n')" ]; then
-  docker rm $containers
-fi
+# Grab the ID of exited containers and pass to docker rm
+docker ps -a | fgrep ' Exited ' | cut -d' ' -f 1 | xargs -r docker rm
 
 # vi:ft=sh:sw=2:
