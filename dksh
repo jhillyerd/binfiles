@@ -1,5 +1,5 @@
 #!/bin/bash
-# dksh: Start an interactive shell on the specified image
+# dksh: Start an interactive shell on the specified Docker image
 
 set -e
 
@@ -8,6 +8,6 @@ if [ $UID -ne 0 ]; then
   exec sudo "$0" "$1"
 fi
 
-docker run -it $1 /bin/bash
+docker run -it --entrypoint='/bin/bash' "$1" -i
 
 # vi:ft=sh:sw=2:
