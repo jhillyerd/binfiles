@@ -1,0 +1,19 @@
+#!/bin/bash
+# update-all-the-things: git pull all my standard repos
+
+# Repositories to pull, relative to $HOME
+repos=(bin .vim .dotfiles .oh-my-zsh)
+
+function is_cwd_clean() {
+  [ -z "$(git status --porcelain)" ]
+}
+
+for repo in "${repos[@]}"; do
+  cd "$HOME/$repo"
+  if is_cwd_clean; then
+    echo -e "\nPulling $PWD:"
+    git pull
+  else
+    echo -e "\nSkipping $PWD, it's dirty!"
+  fi
+done
