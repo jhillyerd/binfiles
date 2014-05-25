@@ -1,5 +1,6 @@
 #!/bin/bash
-# dkpurge: Remove all Docker containers and images
+# dkpurge
+# description: Remove all Docker containers and images
 
 set -e
 

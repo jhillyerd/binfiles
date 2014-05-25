@@ -1,5 +1,6 @@
 #!/bin/bash
-# dksh: Start an interactive shell on the specified Docker image
+# dksh
+# description: Start an interactive shell on the specified Docker image
 
 set -e
 

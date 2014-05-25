@@ -1,5 +1,6 @@
 #!/bin/bash
-# update-all-the-things: git pull all my standard repos
+# update-all-the-things
+# description: git pull all my standard repos
 
 # Repositories to pull, relative to $HOME
 repos=(bin .vim .dotfiles .oh-my-zsh)

@@ -1,5 +1,6 @@
 #!/bin/bash
-# dkclean: Remove non-running Docker containers
+# dkclean
+# description: Remove non-running Docker containers
 
 set -e
 
