@@ -10,6 +10,7 @@ if [ $UID -ne 0 ]; then
 fi
 
 # Grab the ID of exited containers and pass to docker rm
-docker ps -a | fgrep ' Exited ' | cut -d' ' -f 1 | xargs -r docker rm
+# We pass -v to rm to remove volumes, this might cause problems
+docker ps -a | fgrep ' Exited ' | cut -d' ' -f 1 | xargs -r docker rm -v
 
 # vi:ft=sh:sw=2:
