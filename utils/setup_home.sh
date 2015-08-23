@@ -30,6 +30,7 @@ function install_repo() {
 }
 
 install_repo binfiles bin
+install_repo oh-my-fish .oh-my-fish
 
 if install_repo dotfiles .dotfiles; then
   $HOME/.dotfiles/install.sh
