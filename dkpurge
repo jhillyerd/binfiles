@@ -2,12 +2,7 @@
 # dkpurge
 # description: Remove all Docker containers and images
 
-set -e
-
-# Only run as root
-if [ $UID -ne 0 ]; then
-  exec sudo $0
-fi
+set -eo pipefail
 
 echo "Killing any running containers..."
 docker ps -q | xargs -r docker kill

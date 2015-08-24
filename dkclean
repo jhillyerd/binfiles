@@ -2,12 +2,7 @@
 # dkclean
 # description: Remove non-running Docker containers
 
-set -e
-
-# Only run as root
-if [ $UID -ne 0 ]; then
-  exec sudo $0
-fi
+set -eo pipefail
 
 # Grab the ID of exited containers and pass to docker rm
 # We pass -v to rm to remove volumes, this might cause problems

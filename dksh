@@ -2,13 +2,9 @@
 # dksh
 # description: Start an interactive shell on the specified Docker image
 
-set -e
+set -eo pipefail
 
-# Only run as root
-if [ $UID -ne 0 ]; then
-  exec sudo "$0" "$1"
-fi
-
-docker run -it --entrypoint='/bin/bash' "$1" -i
+declare image="$1"
+docker run -it --entrypoint='/bin/bash' "$image" -i
 
 # vi:ft=sh:sw=2:
