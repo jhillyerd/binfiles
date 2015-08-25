@@ -3,6 +3,7 @@
 # description: Remove all Docker containers and images
 
 set -eo pipefail
+[[ $TRACE ]] && set -x
 
 echo "Killing any running containers..."
 docker ps -q | xargs -r docker kill
@@ -11,8 +12,10 @@ echo "Deleting all containers..."
 docker ps -qa | xargs -r docker rm
 
 echo "Deleting all images..."
-function next_image() {
-  image="$(docker images -qa | head -n 1)"
+next_image() {
+  local images="$(docker images -qa)"
+  images=( ${images/\n/ /} )
+  image=${images[0]}
 }
 next_image
 while [ -n "$image" ]; do
