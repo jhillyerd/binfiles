@@ -7,19 +7,30 @@ REPOS=(bin .vim .dotfiles)
 WARNCLR="\E[31m"
 RESET="\E[0m"
 
-function is_cwd_clean() {
+set -eo pipefail
+[[ "$TRACE" ]] && set -x
+
+is_cwd_clean() {
   [ -z "$(git status --porcelain)" ]
+}
+
+is_on_master() {
+  local branch_name="$(git symbolic-ref HEAD 2>/dev/null)" || local branch_name="(unnamed)"
+  local branch_name="${branch_name##refs/heads/}"
+  [ "$branch_name" == "master" ]
 }
 
 for repo in "${REPOS[@]}"; do
   repodir="$HOME/$repo"
   if [ -d "$repodir" ]; then
     cd "$repodir"
-    if is_cwd_clean; then
+    if ! is_cwd_clean; then
+      echo -e "\n${WARNCLR}Skipping $repodir, it's dirty!$RESET"
+    elif ! is_on_master; then
+      echo -e "\n${WARNCLR}Skipping $repodir, not on master branch!$RESET"
+    else
       echo -e "\nPulling $repodir:"
       git pull
-    else
-      echo -e "\n${WARNCLR}Skipping $repodir, it's dirty!$RESET"
     fi
   else
     echo -e "\nSkipping $repodir, it doesn't exist!"
