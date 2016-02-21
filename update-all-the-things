@@ -30,7 +30,7 @@ for repo in "${REPOS[@]}"; do
       echo -e "\n${WARNCLR}Skipping $repodir, not on master branch!$RESET"
     else
       echo -e "\nPulling $repodir:"
-      git pull
+      git pull --ff-only
     fi
   else
     echo -e "\nSkipping $repodir, it doesn't exist!"
