@@ -1,9 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 # setup_home.sh - Clone and configure my standard config repos
 
-GITHUB_BASE=https://jhillyerd@github.com/jhillyerd
-PROXY_HOST=proxysg.noa.com
-PROXY_PORT=8080
+GITHUB_USER="jhillyerd"
+GITHUB_BASE="https://$GITHUB_USER@github.com/$GITHUB_USER"
+PROXY_HOST="proxysg.noa.com"
+PROXY_PORT="8080"
 
 if ping -c 1 $PROXY_HOST >/dev/null 2>&1; then
   export HTTP_PROXY="$PROXY_HOST:$PROXY_PORT"
@@ -15,10 +16,10 @@ else
   echo "## Proxy server $PROXY_HOST not found, going direct"
 fi
 
-function install_repo() {
-  repo_name="$1"
-  target_dir="$2"
-  cd $HOME
+install_repo() {
+  local repo_name="$1"
+  local target_dir="$2"
+  cd "$HOME"
   if [ -d "$target_dir" ]; then
     echo "## Target $target_dir exists, skipping"
     return 1
@@ -30,14 +31,18 @@ function install_repo() {
 }
 
 install_repo binfiles bin
-install_repo oh-my-fish .oh-my-fish
 
 if install_repo dotfiles .dotfiles; then
   $HOME/.dotfiles/install.sh
 fi
 
 if install_repo dotvim .vim; then
-  git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-  ln -s ~/.vim/vimrc ~/.vimrc
-  vim +PluginInstall +qall
+  source ~/.vim/init-vundle.sh
 fi
+
+# Setup oh-my-fish
+# TODO if repo ever comes back
+
+# Setup golang dev dirs
+mkdir -p "devel/gocode/src/github.com/$GITHUB_USER"
+mkdir -p "devel/godeps"
