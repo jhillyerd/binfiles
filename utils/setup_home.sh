@@ -1,5 +1,6 @@
 #!/bin/sh
-# setup_home.sh - Clone and configure my standard config repos
+# setup_home.sh
+# description: Clone and configure my standard config repos
 
 GITHUB_USER="jhillyerd"
 GITHUB_BASE="https://$GITHUB_USER@github.com/$GITHUB_USER"
