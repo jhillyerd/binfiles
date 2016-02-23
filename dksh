@@ -5,6 +5,6 @@
 set -eo pipefail
 
 declare image="$1"
-docker run -it --entrypoint='/bin/bash' "$image" -i
+docker run -it --entrypoint='/bin/sh' "$image" -i
 
 # vi:ft=sh:sw=2:
