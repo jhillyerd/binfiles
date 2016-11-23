@@ -26,11 +26,11 @@ if install_repo dotfiles .dotfiles; then
 fi
 
 if install_repo dotvim .vim; then
-  source ~/.vim/install-plug.sh
+  $HOME/.vim/install-plug.sh
 fi
 
-# Setup oh-my-fish
-# TODO if repo ever comes back
+# Install oh-my-fish
+curl -L http://get.oh-my.fish | fish
 
 # Setup golang dev dirs
 mkdir -p "devel/gocode/src/github.com/$GITHUB_USER"
