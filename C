@@ -1,0 +1,37 @@
+#!/bin/bash
+# C
+# description: Presents a list of files and prompts for a selection.  Copies
+#   the selected file to the clipboard.
+
+SNIPDIR="$HOME/Copy"
+
+set -eo pipefail
+[[ "$TRACE" ]] && set -x
+
+list_snips() {
+  declare snipfiles=( "$@" )
+  for i in "${!snipfiles[@]}"; do
+    local num=$((i+1))
+    echo "${num}. ${snipfiles[$i]}"
+  done
+}
+
+main() {
+  local snipfiles=($(ls "$SNIPDIR"))
+  list_snips "${snipfiles[@]}"
+  read -p "Snippet to copy: " in
+  echo
+  if [[ ! "$in" ]]; then
+    exit
+  fi
+  local selection=$((in-1))
+  local name="${snipfiles[$selection]}"
+  if [[ "$name" ]]; then
+    xclip -selection c < "$SNIPDIR/$name"
+    echo "$name copied!"
+  else
+    echo "Invalid selection!"
+  fi
+}
+
+main
