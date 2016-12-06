@@ -20,18 +20,17 @@ install_repo() {
 }
 
 install_repo binfiles bin
+install_repo dotvim .vim
 
 if install_repo dotfiles .dotfiles; then
   $HOME/.dotfiles/install.sh
 fi
 
-if install_repo dotvim .vim; then
-  $HOME/.vim/install-plug.sh
-fi
+# Setup golang dev dirs
+mkdir -p "go/src/github.com/$GITHUB_USER"
+mkdir -p "go/bin"
 
 # Install oh-my-fish
-curl -L http://get.oh-my.fish | fish
-
-# Setup golang dev dirs
-mkdir -p "devel/gocode/src/github.com/$GITHUB_USER"
-mkdir -p "devel/godeps"
+if [ -x /usr/bin/fish ]; then
+  curl -L http://get.oh-my.fish | fish
+fi
