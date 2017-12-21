@@ -1,0 +1,41 @@
+#!/bin/bash
+# V
+# description: Presents a list of files and prompts for a selection.  Copies
+#   the selected file, edits with vim, then copies to clipboard
+
+SNIPDIR="$HOME/Copy"
+
+set -eo pipefail
+[[ "$TRACE" ]] && set -x
+
+list_snips() {
+  declare snipfiles=( "$@" )
+  for i in "${!snipfiles[@]}"; do
+    local num=$((i+1))
+    echo "${num}. ${snipfiles[$i]}"
+  done
+}
+
+main() {
+  local snipfiles=($(ls "$SNIPDIR"))
+  list_snips "${snipfiles[@]}"
+  read -r -p "Snippet to edit & copy: " in
+  echo
+  if [[ ! "$in" ]]; then
+    exit
+  fi
+  local selection=$((in-1))
+  local name="${snipfiles[$selection]}"
+  if [[ "$name" ]]; then
+    local tfile
+    tfile=$(mktemp)
+    cp -f "$SNIPDIR/$name" "$tfile"
+    vim "$tfile"
+    xclip -selection c < "$tfile"
+    echo "$name copied from $tfile!"
+  else
+    echo "Invalid selection!"
+  fi
+}
+
+main
